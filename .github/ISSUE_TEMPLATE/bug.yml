@@ -25,5 +25,5 @@ body:
   - type: input
     id: version
     attributes:
-      label: RepoReel version
-      placeholder: 0.7.0
+      label: Evidock version
+      placeholder: 0.9.0

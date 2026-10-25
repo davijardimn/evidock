@@ -1,25 +1,18 @@
-# Hacker News / Show HN notes — write this one yourself
+# Hacker News factual outline — write the final submission manually
 
-Do **not** paste generated launch copy into Hacker News. HN's current guidelines explicitly ask users not to post generated text and not to automate posting. If you decide to submit RepoReel there, write the title and text yourself in your normal voice.
+Do not paste generated launch copy into Hacker News. Re-check current HN guidelines immediately before submitting.
 
-## Facts worth explaining in your own words
-
-- You built RepoReel because repository presentation and repository reality often diverge.
-- It is open source / MIT and the primary artifact is a standard Agent Skill.
-- The unusual parts are Front Door separation, evidence states, scoped Proof Mode, deterministic score calculation, and validated shareable artifacts.
-- The code is deliberately dependency-free Python for the agent-facing scripts.
-- The CI matrix covers Linux, Windows and macOS on Python 3.9 and latest.
-- A real development lesson: the first versions accidentally awarded points for vacuous conditions such as “no broken docs links” when no docs existed. That led to the explicit `N_A != PASS` rule.
-- Another development lesson: one runtime check must never become a cross-platform compatibility claim, which led to the execution-scope model.
-
-## Show HN fit check
-
-Before submitting:
-
-- Read the current HN and Show HN rules yourself.
-- If your HN account is new or you are not familiar with the community, wait; Show HN has been restricting submissions from users who are not yet familiar with the site.
-- Submit the original GitHub repository, not a marketing landing page.
-- Do not ask anyone to upvote or coordinate comments.
-- Stay available to answer technical questions and criticism.
-
-The strongest HN discussion is probably not “AI roasts your README”; it is the engineering question behind RepoReel: **how much of an agent evaluation should be model judgment versus deterministic evidence and tooling?**
+Facts to use in your own words:
+- Name: Evidock
+- Open source, MIT
+- Agent Skill for repository launch readiness
+- Input: local repository or GitHub URL
+- Front Door audit separates what visitors can see from what an agent can infer from source
+- Claim Verification: VERIFIED / INFERRED / UNKNOWN / CONTRADICTED
+- Proof Mode records exact execution scope and limitations
+- Deterministic Launch Score; only PASS earns points; N_A earns zero
+- Fix Mode: baseline → minimal evidence-backed patch → verify → re-audit → diff
+- Outputs: audit.json, card.svg, report.html, diff.svg, badge.svg/badge.md
+- Agent-facing helpers use Python standard library only
+- URL inspection is static/read-only and never claimed as runtime proof
+- Repository: https://github.com/davijardimn/evidock

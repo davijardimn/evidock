@@ -1,6 +1,6 @@
 ## What changed
 
-## Why it improves RepoReel
+## Why it improves Evidock
 
 ## Evidence / reproduction
 

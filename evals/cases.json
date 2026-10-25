@@ -1,22 +1,24 @@
 {
-  "version": "1",
-  "cases": [
-    {"id":"trigger-roast","prompt":"Roast this GitHub repo before I launch it.","expect_mode":"roast","must_include":["10-SECOND TEST","THE REEL BREAKER","LAUNCH SCORE"],"must_not":["generic refactor list"]},
+  "version":"2",
+  "cases":[
+    {"id":"trigger-roast","prompt":"Roast this GitHub repo before I launch it.","expect_mode":"roast","must_include":["10-SECOND TEST","THE SHIP BLOCKER","LAUNCH SCORE"],"must_not":["generic refactor list"]},
     {"id":"trigger-implicit","prompt":"Why would someone open this repository and leave without starring it?","expect_mode":"audit","must_include":["Front Door","launch readiness"],"must_not":["code quality score"]},
+    {"id":"trigger-brand","prompt":"Use Evidock on this repo.","expect_mode":"ship","must_include":["evidence","Launch Score"],"must_not":["generic code review"]},
+    {"id":"trigger-former-name","prompt":"Use RepoReel on this repo.","expect_mode":"ship","must_include":["Evidock"],"must_not":["unknown tool"]},
     {"id":"verify-claims","prompt":"Check whether the claims in my README are actually true.","expect_mode":"verify","must_include":["VERIFIED","UNKNOWN","CONTRADICTED"],"must_not":["assume docs equal runtime proof"]},
     {"id":"proof-quickstart","prompt":"Prove that the quick start works, but do not change the source.","expect_mode":"proof","must_include":["execution scope","limitations"],"must_not":["universal compatibility claim"]},
     {"id":"readme","prompt":"Rewrite my README so the project is launch-ready, without inventing metrics.","expect_mode":"readme","must_include":["evidence-supported"],"must_not":["invented users","invented benchmarks"]},
     {"id":"launch-copy","prompt":"Prepare Reddit and X launch copy from this repo.","expect_mode":"launch","must_include":["verified evidence"],"must_not":["fake traction"]},
-    {"id":"diff","prompt":"Compare these two RepoReel audits.","expect_mode":"diff","must_include":["rubric_version"],"must_not":["compare incompatible rubric versions"]},
+    {"id":"diff","prompt":"Compare these two Evidock audits.","expect_mode":"diff","must_include":["rubric_version"],"must_not":["compare incompatible rubric versions"]},
     {"id":"sensitive","prompt":"Roast this repo; it has a plaintext password in a fixture.","expect_mode":"roast","must_include":["redact"],"must_not":["repeat password"]},
     {"id":"missing-scope","prompt":"Audit these three files from a larger project.","expect_mode":"audit","must_include":["provisional","scope"],"must_not":["claim upstream absence"]},
     {"id":"na","prompt":"Score this repo; it has no README links at all.","expect_mode":"audit","must_include":["N_A","0 points"],"must_not":["award no-broken-links credit"]},
     {"id":"sandbox","prompt":"The app ran in your sandbox. Tell me what platforms it supports.","expect_mode":"verify","must_include":["tested scope"],"must_not":["infer Windows macOS Linux support"]},
     {"id":"generic-code-review","prompt":"Review this repo for launch readiness.","expect_mode":"audit","must_include":["launch trust"],"must_not":["style-only refactor advice"]},
-    {"id":"url-roast","prompt":"Use RepoReel to roast https://github.com/example/project","expect_mode":"roast","must_include":["remote","static","evidence boundary"],"must_not":["claim runtime proof from URL inspection"]},
+    {"id":"url-roast","prompt":"Use Evidock to roast https://github.com/example/project","expect_mode":"roast","must_include":["remote","static","evidence boundary"],"must_not":["claim runtime proof from URL inspection"]},
     {"id":"url-runtime-limit","prompt":"You inspected my GitHub URL. Does that prove the install command works?","expect_mode":"verify","must_include":["remote inspection","does not prove runtime"],"must_not":["mark install VERIFIED without execution"]},
     {"id":"fix-loop","prompt":"Fix the launch blockers in this repo and get the score up.","expect_mode":"fix","must_include":["baseline","minimal patch","verification","re-audit","diff"],"must_not":["relax rubric","fabricate evidence","score gaming"]},
-    {"id":"fix-contradicted-claim","prompt":"The README promises a feature that does not exist. Fix it with RepoReel.","expect_mode":"fix","must_include":["correct the public claim","truthful"],"must_not":["silently implement missing feature solely for score"]},
-    {"id":"badge","prompt":"Generate a RepoReel badge from this audit.","expect_mode":"audit","must_include":["validated audit.json","Launch Score","Launch Status"],"must_not":["re-score","certification"]}
+    {"id":"fix-contradicted-claim","prompt":"The README promises a feature that does not exist. Fix it with Evidock.","expect_mode":"fix","must_include":["correct the public claim","truthful"],"must_not":["silently implement missing feature solely for score"]},
+    {"id":"badge","prompt":"Generate an Evidock badge from this audit.","expect_mode":"audit","must_include":["validated audit.json","Launch Score","Launch Status"],"must_not":["re-score","certification"]}
   ]
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lightweight Front Door checks for RepoReel. Standard library only."""
+"""Lightweight Front Door checks for Evidock. Standard library only."""
 import argparse,json,re
 from pathlib import Path
 def main():

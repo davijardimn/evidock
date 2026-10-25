@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate RepoReel v0.6 audit JSON. Standard library only."""
+"""Validate Evidock audit JSON using stable rubric/schema v0.6. Standard library only."""
 from __future__ import annotations
 import argparse,json,sys
 from pathlib import Path
@@ -84,5 +84,5 @@ def main():
     if errors:
         for e in errors: print('ERROR:',e,file=sys.stderr)
         raise SystemExit(2)
-    print(f'VALID RepoReel audit v0.6: {p} · Launch Score {d["launch_score"]}/100 · {d["launch_status"]}')
+    print(f'VALID Evidock audit v0.6: {p} · Launch Score {d["launch_score"]}/100 · {d["launch_status"]}')
 if __name__=='__main__': main()
