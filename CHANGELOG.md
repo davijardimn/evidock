@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.2: Public polish
+
+- Removed typographic em and en dashes from maintained public copy, documentation, SVG assets, and generated report/diff text.
+- Reworked punctuation and sentence structure for a cleaner, more consistent repository presentation.
+- Added a regression test so typographic dashes do not return to maintained public text by accident.
+- Kept the Launch Score rubric/schema at v0.6; scoring behavior and evidence rules are unchanged.
+
 ## 0.9.1: Branding cleanup
 
 - Removed stale RepoReel wording from packaged Evidock reference files and the audit template.
