@@ -1,5 +1,6 @@
 import importlib.util,json,subprocess,sys,tempfile,unittest,xml.etree.ElementTree as ET
 from pathlib import Path
+sys.dont_write_bytecode=True
 ROOT=Path(__file__).resolve().parent.parent; SKILL=ROOT/'skills'/'reporeel'; S=SKILL/'scripts'; EX=ROOT/'examples'
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module
