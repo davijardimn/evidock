@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   package:
     runs-on: ubuntu-latest
@@ -12,8 +15,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - run: python tools/smoke_test.py
+      - name: Validate and package Skill
+        run: python tools/smoke_test.py
       - uses: actions/upload-artifact@v4
         with:
           name: reporeel-skill
           path: dist/reporeel.zip
+      - name: Attach versioned Skill ZIP to GitHub Release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          cp dist/reporeel.zip "dist/reporeel-${RELEASE_TAG}.zip"
+          sha256sum "dist/reporeel-${RELEASE_TAG}.zip" > "dist/reporeel-${RELEASE_TAG}.zip.sha256"
+          gh release upload "$RELEASE_TAG" "dist/reporeel-${RELEASE_TAG}.zip" "dist/reporeel-${RELEASE_TAG}.zip.sha256"

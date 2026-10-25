@@ -11,9 +11,41 @@
   <img alt="Python standard library only" src="https://img.shields.io/badge/runtime-Python%20stdlib%20only-3776AB?style=flat-square">
 </p>
 
-RepoReel turns Claude — or any agent that supports the Agent Skills format — into an **evidence-first launch reviewer for software repositories**. It tells you why a stranger would bounce, verifies what your README claims, safely proves important workflows, scores launch readiness with an auditable rubric, and renders shareable before/after artifacts.
+RepoReel turns Claude — or any agent that supports the Agent Skills format — into an **evidence-first launch reviewer for software repositories**. It tells you why a stranger would bounce, checks what your README claims, safely proves important workflows when local execution is available, scores launch readiness with an auditable rubric, fixes launch-surface problems, and renders shareable before/after artifacts.
 
 > **Market the evidence. Never manufacture it.**
+
+## v0.8 closes the loop
+
+```text
+GitHub URL / local repo
+        ↓
+      ROAST
+        ↓
+   Launch Score
+        ↓
+       FIX
+        ↓
+      VERIFY
+        ↓
+     RE-AUDIT
+        ↓
+   DIFF + BADGE
+        ↓
+      SHARE
+```
+
+Three additions make that loop practical:
+
+- **GitHub URL Roast** — point RepoReel at `https://github.com/owner/repo`; remote inspection stays read-only and is explicitly labeled static evidence.
+- **Fix Mode** — baseline → fix plan → minimal patch → verification → re-audit → diff, with explicit protection against score gaming.
+- **RepoReel Badge** — render a static SVG + ready-to-paste Markdown directly from validated `audit.json`.
+
+<p align="center">
+  <img src="docs/images/badge-example.svg" alt="RepoReel badge example: 87/100 READY">
+</p>
+
+The badge is a launch-readiness snapshot — not a code-quality, security, production-readiness or compatibility certification.
 
 ## Try it in 30 seconds
 
@@ -24,15 +56,23 @@ RepoReel turns Claude — or any agent that supports the Agent Skills format —
 /plugin install reporeel@reporeel
 ```
 
-### 2. Open any software repository and ask
+### 2. Roast a repository
+
+Local repo:
 
 ```text
 Use RepoReel to roast this repository.
 Use Proof Mode where it is safe and useful.
-Generate the card and report too.
+Generate the card, report and badge too.
 ```
 
-That is enough. RepoReel inspects the repository, separates what a visitor can see from what an agent can infer, verifies public claims, runs scoped proof when useful, and builds the audit from evidence.
+Or give it a GitHub URL:
+
+```text
+Use RepoReel to roast https://github.com/owner/repo
+```
+
+For a URL-only audit, RepoReel keeps the scope honest: remote inspection can prove repository/documentation facts, but it does not pretend that install/run behavior was executed.
 
 <p align="center">
   <img src="docs/images/demo-flow.svg" alt="RepoReel roast to fix to diff demo" width="100%">
@@ -47,11 +87,13 @@ The score above is **launch readiness**, not code quality. A brilliant project c
 | The product only makes sense after reading source | **Front Door audit** tests what a stranger understands before source spelunking |
 | README promises more than the code delivers | **Claim Verification** classifies claims as VERIFIED / INFERRED / UNKNOWN / CONTRADICTED |
 | Static inspection is not enough | **Proof Mode** runs small, safe experiments and records scope + limitations |
+| You only have a GitHub URL | **URL Roast** gathers bounded, read-only repository evidence without calling it runtime proof |
 | “AI score” feels arbitrary | **Deterministic Launch Score** maps every point to PASS / FAIL / N_A / UNKNOWN; `N_A` earns 0 |
+| You know what is wrong but not how to fix it | **Fix Mode** patches launch surfaces, verifies them, re-audits, and produces a before/after diff |
 | The same launch mistakes repeat across repos | **32-pattern library** names recurring failures such as `front-door-void`, `claim-exceeds-code`, `platform-trap` and `na-as-pass` |
-| The audit is hard to share | **Validated artifacts** generate `card.svg`, `report.html` and `diff.svg` from structured `audit.json` |
+| The audit is hard to share | **Validated artifacts** generate `card.svg`, `report.html`, `diff.svg`, `badge.svg` and `badge.md` from structured evidence |
 
-**Contents:** [Install](#install) · [How it works](#how-it-works) · [Example](#example) · [Use](#use) · [What’s inside](#whats-inside) · [Pattern library](#launch-pattern-library) · [Tests & evals](#tests--evals)
+**Contents:** [Install](#install) · [How it works](#how-it-works) · [URL Roast](#github-url-roast) · [Fix Mode](#fix-mode) · [Artifacts](#artifacts) · [Use](#use) · [What’s inside](#whats-inside) · [Tests & evals](#tests--evals)
 
 ---
 
@@ -100,24 +142,22 @@ flowchart LR
     D -- no --> F[Rubric]
     E --> F
     F --> G[Launch Status + Score]
-    G --> H[Card + Report]
-    H --> I[Fix / Launch / Diff]
+    G --> H[Fix / Artifacts]
+    H --> I[Re-audit + Diff]
 ```
 
-RepoReel deliberately separates four things that are easy to blur:
+RepoReel deliberately separates things that agents often blur:
 
 ```text
 Can the agent understand the source?      ≠ Can a visitor understand the repo?
 A command is documented                   ≠ The command was proven to work
+A remote GitHub URL was inspected         ≠ The project was executed
 The software may be good                  ≠ The repository is launch-ready
 A criterion is not applicable             ≠ The criterion passed
+A prettier README exists                  ≠ The evidence improved
 ```
 
-A `roast` ends with a diagnosis, not generic code-review noise. A `proof` records exactly what environment was exercised and what the result does **not** prove.
-
-### Evidence before copy
-
-RepoReel classifies repository claims using four evidence states:
+### Evidence states
 
 - `VERIFIED` — directly supported by repository evidence or scoped proof.
 - `INFERRED` — strongly suggested, but not directly proven.
@@ -126,9 +166,74 @@ RepoReel classifies repository claims using four evidence states:
 
 Secrets, passwords and unnecessary personal data are redacted from shareable reports. RepoReel proves the finding without republishing the sensitive value.
 
+### Launch Score
+
+The stable rubric totals 100 points:
+
+```text
+Discovery        20
+Demonstration    20
+Quick Start      20
+Documentation    15
+Trust            15
+Polish           10
+                ───
+                100
+```
+
+Each criterion is `PASS`, `FAIL`, `N_A` or `UNKNOWN`. Only `PASS` earns points. The audit/rubric schema remains v0.6 in RepoReel v0.8.0 so compatible historical audits can still be diffed.
+
 ---
 
-## Example
+## GitHub URL Roast
+
+When the environment has a native repository connector, RepoReel should prefer it. The bundled standard-library collector provides a deterministic fallback:
+
+```bash
+python skills/reporeel/scripts/inspect_github.py \
+  --repo https://github.com/davijardimn/reporeel \
+  --output .reporeel/github-evidence.json
+```
+
+It collects repository metadata, resolved ref/commit, a bounded tree summary, selected Front Door files, workflow metadata and recent release metadata.
+
+For private repositories, an already-configured `GITHUB_TOKEN` can be used. RepoReel never needs the token pasted into the prompt and never writes it into the evidence output.
+
+URL Roast is intentionally **static and read-only**. Runtime claims remain scoped accordingly.
+
+---
+
+## Fix Mode
+
+Ask:
+
+```text
+Use RepoReel to fix the launch blockers, verify the changes, re-audit, and generate the diff.
+```
+
+RepoReel then follows:
+
+```text
+before.audit.json
+      ↓
+fix plan mapped to evidence
+      ↓
+minimal launch-surface patch
+      ↓
+verification
+      ↓
+after.audit.json
+      ↓
+diff.svg
+```
+
+Fix Mode prefers README/docs/quick-start/navigation/demo-reference/repository-presentation fixes. It does not silently implement missing product features just to raise the score.
+
+If a claim is contradicted because the feature does not exist, the default launch fix is to make the public claim truthful. Product implementation is a separate task unless explicitly requested.
+
+---
+
+## Artifacts
 
 A roast follows a recognizable structure:
 
@@ -158,38 +263,57 @@ Typical output:
 ```text
 .reporeel/
 ├── evidence.json
+├── github-evidence.json
 ├── audit.json
 ├── card.svg
 ├── report.html
+├── badge.svg
+├── badge.md
+├── before.audit.json
+├── after.audit.json
 └── diff.svg
 ```
+
+Render the badge directly:
+
+```bash
+python skills/reporeel/scripts/render_badge.py \
+  --audit .reporeel/audit.json \
+  --output .reporeel/badge.svg \
+  --markdown-output .reporeel/badge.md
+```
+
+The generated Markdown links back to RepoReel by default, making discovery opt-in and transparent rather than automatic/spammy.
 
 ---
 
 ## Use
 
-Just ask naturally — the Skill is designed to trigger on repository launch/readiness work even if the user never says “RepoReel”.
+Ask naturally — the Skill is designed to trigger on repository launch/readiness work even if the user never says “RepoReel”.
 
+> “Roast https://github.com/owner/repo before I share it.”  
 > “Why would someone open this repo and leave without starring it?”  
 > “Verify the claims in my README.”  
 > “Prove the quick start works, but don't change the source.”  
-> “Fix my Front Door and re-audit it.”  
-> “Prepare HN, Reddit and X launch copy from verified evidence.”  
-> “Compare the before and after RepoReel audits.”
+> “Fix my Front Door, verify the patch and show me the before/after.”  
+> “Generate a RepoReel badge from this audit.”  
+> “Prepare Reddit and X launch copy from verified evidence.”
 
 Modes: `audit` · `roast` · `verify` · `proof` · `fix` · `readme` · `launch` · `diff` · `ship`.
 
 ### Agent-facing tools
 
-All current tools use Python's standard library only:
+All bundled tools use Python's standard library only:
 
 ```bash
 python skills/reporeel/scripts/inspect_repo.py --root . --output .reporeel/evidence.json
+python skills/reporeel/scripts/inspect_github.py --repo https://github.com/owner/repo --output .reporeel/github-evidence.json
 python skills/reporeel/scripts/search_patterns.py --query "broken readme"
 python skills/reporeel/scripts/score_audit.py --audit .reporeel/audit.json
 python skills/reporeel/scripts/validate_audit.py --audit .reporeel/audit.json
 python skills/reporeel/scripts/render_card.py --audit .reporeel/audit.json --output .reporeel/card.svg
 python skills/reporeel/scripts/render_report.py --audit .reporeel/audit.json --output .reporeel/report.html
+python skills/reporeel/scripts/render_badge.py --audit .reporeel/audit.json --output .reporeel/badge.svg --markdown-output .reporeel/badge.md
 python skills/reporeel/scripts/verify_artifacts.py --audit .reporeel/audit.json --card .reporeel/card.svg --report .reporeel/report.html
 ```
 
@@ -203,37 +327,39 @@ python skills/reporeel/scripts/verify_artifacts.py --audit .reporeel/audit.json 
 skills/reporeel/
 ├── SKILL.md                    operating contract and workflow
 ├── references/                 loaded on demand
-│   ├── front-door.md           what counts before source spelunking
-│   ├── evidence.md             VERIFIED / INFERRED / UNKNOWN / CONTRADICTED
-│   ├── proof-mode.md           safe runtime proof protocol
-│   ├── audit-rubric.md         deterministic 100-point rubric
-│   ├── launch-status.md        READY / CAUTION / BLOCKED / UNKNOWN
-│   ├── redaction.md            share findings without leaking secrets/PII
-│   └── pattern-library.md      how to use recurring launch anti-patterns
+│   ├── github-url.md           remote URL evidence boundary
+│   ├── fix-mode.md             evidence-preserving repair loop
+│   ├── badge.md                shareable badge integrity contract
+│   ├── front-door.md
+│   ├── evidence.md
+│   ├── proof-mode.md
+│   ├── audit-rubric.md
+│   ├── launch-status.md
+│   ├── redaction.md
+│   └── pattern-library.md
 ├── scripts/
-│   ├── inspect_repo.py         static evidence collector
-│   ├── search_patterns.py      query the launch-pattern library
-│   ├── score_audit.py          recompute scores from criterion states
-│   ├── validate_audit.py       enforce the audit contract
-│   ├── render_card.py          audit.json → shareable SVG
-│   ├── render_report.py        audit.json → standalone HTML
-│   ├── render_diff.py          before/after → SVG
-│   └── verify_artifacts.py     structural integrity checks
+│   ├── inspect_repo.py         local static evidence collector
+│   ├── inspect_github.py       GitHub URL evidence collector
+│   ├── search_patterns.py
+│   ├── score_audit.py
+│   ├── validate_audit.py
+│   ├── render_card.py
+│   ├── render_report.py
+│   ├── render_badge.py         audit.json → README badge + Markdown
+│   ├── render_diff.py
+│   └── verify_artifacts.py
 ├── assets/patterns.json        curated launch anti-pattern library
 └── templates/                  structured audit template
 evals/                          behavior-contract eval cases
 tests/                          repository/tooling tests
-tools/
-├── smoke_test.py               run scripts the way an agent runs them
-├── lint_evals.py               validate eval suite
-└── package_skill.py            build dist/reporeel.zip
+tools/                          smoke/eval/package tooling
 ```
 
 ---
 
 ## Launch Pattern Library
 
-RepoReel currently ships **32 recurring launch patterns** covering discovery, demonstration, quick start, documentation, trust, polish and audit-method failures. Examples include `front-door-void`, `claim-exceeds-code`, `platform-trap`, `proof-scope-overreach`, `na-as-pass` and `code-review-drift`.
+RepoReel ships **32 recurring launch patterns** covering discovery, demonstration, quick start, documentation, trust, polish and audit-method failures. Examples include `front-door-void`, `claim-exceeds-code`, `platform-trap`, `proof-scope-overreach`, `na-as-pass` and `code-review-drift`.
 
 Search it locally:
 
@@ -243,13 +369,13 @@ python skills/reporeel/scripts/search_patterns.py --severity HIGH
 python skills/reporeel/scripts/search_patterns.py --query "runtime support"
 ```
 
-Patterns never replace direct evidence or the rubric. They help the agent name and remediate what it has already observed.
+Patterns never replace direct evidence or the rubric.
 
 ---
 
 ## Tests & evals
 
-RepoReel ships unit/integration tests, an end-to-end smoke test and a behavioral eval suite. CI runs the validation matrix on Linux, Windows and macOS with Python 3.9 and the latest available Python.
+RepoReel ships unit/integration tests, an end-to-end smoke test and a behavioral eval suite. CI runs on Linux, Windows and macOS with Python 3.9 and the latest available Python.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -257,13 +383,13 @@ python tools/smoke_test.py
 python tools/lint_evals.py
 ```
 
-The `evals/` suite checks implicit triggering, scope discipline, redaction, `N_A != PASS`, runtime-proof limits, claim verification and preventing generic code-review drift. It is a behavioral contract, not a model benchmark.
+The eval suite covers implicit triggering, URL-scope discipline, Fix Mode score-gaming resistance, badge integrity, redaction, `N_A != PASS`, runtime-proof limits, claim verification and preventing generic code-review drift. It is a behavioral contract, not a model benchmark.
 
 ---
 
 ## Why RepoReel is not a README generator
 
-A README generator can make weak evidence sound polished. RepoReel does the opposite: it establishes scope, checks the Front Door, classifies claims, proves consequential workflows when safe, records limitations, computes points from explicit states, and **only then** helps improve presentation or launch copy.
+A README generator can make weak evidence sound polished. RepoReel does the opposite: it establishes scope, checks the Front Door, classifies claims, proves consequential workflows when safe, records limitations, computes points from explicit states, fixes only evidence-supported launch surfaces, and **only then** helps package/share the result.
 
 It must never manufacture stars, users, testimonials, benchmarks, compatibility, production readiness, security properties or feature completeness. Missing evidence becomes `UNKNOWN`, not marketing.
 

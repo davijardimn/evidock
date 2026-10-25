@@ -1,44 +1,53 @@
-# First 72 hours
+# First 72 hours — v0.8.0
 
 This is a sequencing plan, not a promise of traffic.
 
 ## Before public posting
 
-- Create GitHub Release `v0.7.0` and attach the packaged `reporeel.zip`.
-- Add repository topics: `agent-skills`, `claude`, `claude-code`, `developer-tools`, `github`, `readme`, `repository`, `open-source`, `audit`, `llm`, `ai-agents`.
-- Verify the Release ZIP installs once in Claude.ai/Desktop.
-- Verify the Claude Code marketplace install once from a clean environment.
-- Make sure the CI badge is green.
+- Merge v0.8.0 only after the full CI matrix is green.
+- Create GitHub Release `v0.8.0` from the validated `main` commit.
+- Confirm the `package-skill` workflow succeeds and automatically attaches `reporeel-v0.8.0.zip` plus its `.sha256` checksum to the Release.
+- Verify the exact Release ZIP installs in Claude.ai/Desktop.
+- Verify the Claude Code marketplace install from a clean environment.
+- Confirm repository topics and the CI badge.
+- Run one real URL → roast → fix → re-audit → diff + badge flow on a repository that is not RepoReel itself.
 
 ## Wave 1 — direct proof
 
-Publish the visual `ROAST → FIX → DIFF` on X and send the repository only to people who are genuinely likely to test developer tooling. Ask for **feedback**, not stars.
+Publish one concrete visual showing the workflow, ideally with a real repository and permission when needed:
 
-Goal: get the first unrelated repo audit and find the first false positive/false negative.
+```text
+GitHub URL → ROAST → FIX → 27 → 86 → BADGE
+```
+
+Send the repository only to people genuinely likely to test developer tooling. Ask for **feedback**, not stars.
+
+Goal: obtain the first unrelated-repo audit and identify the first false positive/false negative.
 
 ## Wave 2 — communities
 
-Use the channel-specific drafts in this directory, adapted to the community. Do not cross-post the same wording everywhere.
+Adapt the channel-specific drafts in this directory. Do not cross-post identical wording everywhere.
 
-- r/ClaudeAI: build/process story + free/open source + how Claude was used.
-- r/LLMDevs: deterministic-tooling / agent-evaluation angle.
+- r/ClaudeAI: build/process story + free/open source + evidence-first Claude workflow.
+- r/LLMDevs: deterministic tooling, remote scope, Proof Mode and anti-score-gaming design.
 - r/github: self-promotion megathread only.
-- Avoid r/opensource for this launch under its current anti-AI project rule.
+- Re-check current community rules immediately before posting; rules can change.
 
-Respond to technical questions with evidence and link to exact files/scripts when useful.
+Respond to technical criticism with exact evidence/files rather than marketing language.
 
 ## Wave 3 — Hacker News
 
-Only after the repo has already been exercised by outside users and only if you are familiar with HN. Write the submission yourself. Do not reuse generated launch prose.
+Only after RepoReel has been exercised by outside users and only if familiar with HN. Read current rules and write the actual submission yourself. Do not coordinate votes/comments.
 
-## What to do with feedback
+## Feedback loop
 
 Turn useful criticism into visible repository activity:
 
-- false-positive report → add an eval case
-- false-negative report → add/update a launch pattern or rubric wording
+- false positive → eval case
+- false negative → pattern/rubric clarification
+- URL scope bug → parser/collector test
 - platform bug → reproduce in CI
-- confusing install → simplify the Front Door
+- confusing install → simplify Front Door
 - successful before/after → ask permission before featuring it
 
-The best launch loop for RepoReel is itself evidence-driven: **real repo → finding → fix → diff → better Skill**.
+The launch loop should mirror the product philosophy: **real repo → evidence → finding → fix → diff → better Skill**.
