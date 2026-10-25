@@ -1,6 +1,6 @@
 # Evidock launch kit
 
-This folder contains channel-specific launch material for Evidock v0.9.1.
+This folder contains channel-specific launch material for Evidock v0.9.2.
 
 ## Baseline
 
@@ -10,10 +10,11 @@ Do not manufacture stars, users, testimonials, benchmarks, compatibility, or ado
 
 ## Order
 
-1. Publish GitHub Release v0.9.1 and verify the packaged Skill.
-2. Run Evidock on one unrelated public repository and capture a real before → after result.
-3. Share the concrete result on X/personal network.
-4. Post channel-native versions to communities whose current rules allow open-source self-promotion.
-5. Use Hacker News only after re-checking current rules and writing the submission manually in your own voice.
+1. Publish GitHub Release v0.9.2 and verify the exact packaged Skill.
+2. Verify installation in Claude.ai/Desktop and from a clean Claude Code environment.
+3. Lead public promotion with the real AudioCleaner result: `57 → 71 (+14)` while clearly stating the remaining evidence gaps.
+4. Share the concrete result on X/personal network.
+5. Post channel-native versions to communities whose current rules allow open-source self-promotion.
+6. Use Hacker News only after re-checking current rules and writing the submission manually in your own voice.
 
 Re-check community rules immediately before posting; they can change.
