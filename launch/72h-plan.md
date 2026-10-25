@@ -5,8 +5,9 @@ This is a sequencing plan, not a promise of traffic.
 ## Before public posting
 
 - Merge v0.8.0 only after the full CI matrix is green.
-- Create GitHub Release `v0.8.0` and attach the packaged `reporeel.zip`.
-- Verify the Release ZIP installs in Claude.ai/Desktop.
+- Create GitHub Release `v0.8.0` from the validated `main` commit.
+- Confirm the `package-skill` workflow succeeds and automatically attaches `reporeel-v0.8.0.zip` plus its `.sha256` checksum to the Release.
+- Verify the exact Release ZIP installs in Claude.ai/Desktop.
 - Verify the Claude Code marketplace install from a clean environment.
 - Confirm repository topics and the CI badge.
 - Run one real URL → roast → fix → re-audit → diff + badge flow on a repository that is not RepoReel itself.
