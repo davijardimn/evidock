@@ -1,6 +1,6 @@
 # Evidock launch kit
 
-This folder contains channel-specific launch material for Evidock v0.9.0.
+This folder contains channel-specific launch material for Evidock v0.9.1.
 
 ## Baseline
 
@@ -10,7 +10,7 @@ Do not manufacture stars, users, testimonials, benchmarks, compatibility, or ado
 
 ## Order
 
-1. Publish GitHub Release v0.9.0 and verify the packaged Skill.
+1. Publish GitHub Release v0.9.1 and verify the packaged Skill.
 2. Run Evidock on one unrelated public repository and capture a real before → after result.
 3. Share the concrete result on X/personal network.
 4. Post channel-native versions to communities whose current rules allow open-source self-promotion.

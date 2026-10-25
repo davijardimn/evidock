@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.1 — Branding cleanup
+
+- Removed stale RepoReel wording from packaged Evidock reference files and the audit template.
+- Updated the default `reel_breaker` example value to the user-facing **Ship Blocker** terminology while retaining the field name for v0.6 schema compatibility.
+- Added a packaging regression test so stale RepoReel / Reel Breaker copy cannot silently return outside the intentional legacy alias in `SKILL.md`.
+- Kept the Launch Score rubric/schema at v0.6; scoring behavior is unchanged.
+
 ## 0.9.0 — Evidock
 
 - Rebranded **RepoReel → Evidock** before broad public promotion.
