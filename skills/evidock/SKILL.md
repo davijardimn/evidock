@@ -1,17 +1,17 @@
 ---
-name: reporeel
-description: Evidence-first launch audit for software repositories. Use this skill whenever someone wants to roast, audit, score, verify, prove, improve, fix, package, or prepare a repo for GitHub/Hacker News/Reddit; audit a GitHub repository URL; improve a README or repository Front Door; check whether public feature claims are actually supported; compare before/after launch readiness; generate a shareable score card/report/badge; or asks why a project is not getting attention or stars. Also use for repository launch reviews even when the user does not say “RepoReel”.
+name: evidock
+description: Evidence-first launch audit for software repositories. Use this skill whenever someone wants to roast, audit, score, verify, prove, improve, fix, package, or prepare a repo for GitHub/Hacker News/Reddit; audit a GitHub repository URL; improve a README or repository Front Door; check whether public feature claims are actually supported; compare before/after launch readiness; generate a shareable score card/report/badge; or asks why a project is not getting attention or stars. Also use for repository launch reviews even when the user does not say “Evidock”. If the user says “RepoReel”, treat it as the former name of Evidock.
 license: MIT
 metadata:
   author: Davi Jardim Nascimento
-  version: "0.8.0"
+  version: "0.9.0"
 ---
 
-# RepoReel
+# Evidock
 
-**Your code might be ready. Your repo probably isn't.**
+**Evidence before you ship.**
 
-RepoReel audits, proves, fixes, roasts, and improves how a software project appears before launch.
+Evidock audits, proves, fixes, roasts, and improves how a software project appears before launch.
 
 > Market the evidence. Never manufacture it.
 
@@ -69,20 +69,12 @@ Read `references/scope.md` whenever completeness or execution scope could change
 | `diff` | Compare compatible before/after audits | No |
 | `ship` | Discover → verify/prove → audit → fix → re-audit → artifacts → launch | Yes/output artifacts |
 
-Natural-language equivalents count. If the user only says “use RepoReel”, default to `ship` when enough editable evidence exists; otherwise run `audit`.
+Natural-language equivalents count. If the user only says “use Evidock”, default to `ship` when enough editable evidence exists; otherwise run `audit`.
 
 ## Core workflow
 
 ### 1. Discover
-Inspect, when available:
-- README/docs and repository metadata
-- manifests/lockfiles
-- source tree and entrypoints
-- tests/examples
-- CI/release files
-- license/support/contribution files
-- screenshots/demos/assets
-- Git metadata
+Inspect, when available: README/docs and repository metadata; manifests/lockfiles; source tree and entrypoints; tests/examples; CI/release files; license/support/contribution files; screenshots/demos/assets; Git metadata.
 
 For a local filesystem, prefer:
 
@@ -103,60 +95,23 @@ The URL collector is read-only and bounded. Treat truncation/unavailable files a
 ### 2. Evaluate the Front Door
 The Front Door is what a stranger can learn **before running or spelunking through source code**. Read `references/front-door.md`.
 
-Ask:
-- What is it?
-- Who is it for?
-- What outcome does it deliver?
-- Why is it worth attention?
-- What does it look like/output?
-- How can I try it?
+Ask: What is it? Who is it for? What outcome does it deliver? Why is it worth attention? What does it look like/output? How can I try it?
 
 Do not award Front Door points from hidden templates/source files.
 
 ### 3. Verify claims
-Read `references/claim-verification.md` and `references/evidence.md`.
-
-For consequential claims, classify:
-- **VERIFIED** — directly supported by accessible evidence.
-- **INFERRED** — strongly suggested but not fully proven.
-- **UNKNOWN** — insufficient evidence.
-- **CONTRADICTED** — accessible evidence materially conflicts.
+Read `references/claim-verification.md` and `references/evidence.md`. For consequential claims, classify VERIFIED, INFERRED, UNKNOWN, or CONTRADICTED.
 
 ### 4. Use Proof Mode when valuable and safe
-Read `references/proof-mode.md`.
-
-Prefer the smallest non-destructive runtime experiment that can confirm/refute a meaningful claim. Record:
-- command/action
-- environment/scope
-- result
-- observations
-- limitations
-
-A sandbox pass proves only the tested sandbox/configuration. A remote GitHub URL by itself is not Proof Mode.
+Read `references/proof-mode.md`. Prefer the smallest non-destructive runtime experiment that can confirm/refute a meaningful claim. Record command/action, environment/scope, result, observations, and limitations. A sandbox pass proves only the tested sandbox/configuration. A remote GitHub URL by itself is not Proof Mode.
 
 ### 5. Determine Launch Status
-Read `references/launch-status.md`.
-
-Launch Status is independent of Launch Score:
-- READY
-- CAUTION
-- BLOCKED
-- UNKNOWN
+Read `references/launch-status.md`. Launch Status is independent of Launch Score: READY, CAUTION, BLOCKED, UNKNOWN.
 
 ### 6. Calculate Launch Score
-Read `references/audit-rubric.md`.
+Read `references/audit-rubric.md`. Categories total 100: Discovery 20, Demonstration 20, Quick Start 20, Documentation 15, Trust 15, Polish 10. Each criterion must have a state and evidence. Only PASS gets its full points.
 
-Categories total 100:
-- Discovery — 20
-- Demonstration — 20
-- Quick Start — 20
-- Documentation — 15
-- Trust — 15
-- Polish — 10
-
-Each criterion must have a state and evidence. Only PASS gets its full points. Never invent partial points.
-
-The stable audit/rubric schema remains `0.6` in RepoReel v0.8.0 so compatible historical audits can still be diffed.
+The stable audit/rubric schema remains `0.6` in Evidock v0.9.0 so compatible historical audits can still be diffed. The structured field `reel_breaker` is retained for v0.6 schema compatibility; user-facing output calls it **THE SHIP BLOCKER**.
 
 ### 7. Persist structured output when supported
 Read `references/audit-schema.md`.
@@ -164,17 +119,17 @@ Read `references/audit-schema.md`.
 Preferred artifacts:
 
 ```text
-.reporeel/
+.evidock/
 ├── evidence.json
-├── github-evidence.json   # URL input when used
+├── github-evidence.json
 ├── audit.json
 ├── report.html
 ├── card.svg
 ├── badge.svg
 ├── badge.md
-├── before.audit.json      # Fix Mode
-├── after.audit.json       # Fix Mode
-└── diff.svg               # compatible before/after audits
+├── before.audit.json
+├── after.audit.json
+└── diff.svg
 ```
 
 Validate before rendering:
@@ -193,7 +148,7 @@ For before/after:
 python3 <skill-directory>/scripts/render_diff.py --before <before.json> --after <after.json> --output <diff.svg>
 ```
 
-`audit.json` is the source of truth. Renderers must not reinterpret scores. Read `references/artifact-integrity.md` and `references/badge.md`. If the environment cannot visually preview an SVG, report structural validation instead of claiming that you inspected its appearance.
+`audit.json` is the source of truth. Renderers must not reinterpret scores. Read `references/artifact-integrity.md` and `references/badge.md`.
 
 ## Mode-specific behavior
 
@@ -201,23 +156,19 @@ python3 <skill-directory>/scripts/render_diff.py --before <before.json> --after 
 Use this recognizable order:
 
 ```text
-REPOREEL / ROAST
+EVIDOCK / ROAST
 SCOPE
 LAUNCH READINESS
 10-SECOND TEST
-THE REEL BREAKER
+THE SHIP BLOCKER
 CLAIM VERIFICATION
-PROOF MODE            # only if runtime proof actually ran
+PROOF MODE
 LAUNCH BLOCKERS
 SCORECARD
 IF THIS WERE MY REPO
 ```
 
-`THE REEL BREAKER` is the single evidence-backed issue causing the most launch damage.
-
-Be sharp but useful. Do not insult the author. Do not end with a question. End with the diagnosis and `Then run RepoReel roast again.`
-
-For URL Roast, explicitly label the scope as remote/static when that is all that was inspected.
+`THE SHIP BLOCKER` is the single evidence-backed issue causing the most launch damage. Be sharp but useful. Do not insult the author. Do not end with a question. End with the diagnosis and `Then run Evidock roast again.` For URL Roast, explicitly label the scope as remote/static when that is all that was inspected.
 
 ### Audit
 Be less theatrical than roast. Include scope, snapshot, status, Launch Score, strengths, gaps, unknowns, and priorities.
@@ -226,17 +177,7 @@ Be less theatrical than roast. Include scope, snapshot, status, Launch Score, st
 Do not treat documentation as runtime proof. State exactly what was and was not tested.
 
 ### Fix
-Read `references/fix-mode.md` before mutation.
-
-Default sequence:
-1. Preserve a baseline audit.
-2. Map each planned edit to a blocker/failed criterion.
-3. Apply the smallest evidence-supported launch-surface patch.
-4. Verify the changed surface.
-5. Re-audit with the same rubric version.
-6. Generate the before/after diff.
-
-If a public claim is CONTRADICTED because a product feature does not exist, default to correcting the public claim. Implementing missing product behavior is a separate task unless the user explicitly asks for it.
+Read `references/fix-mode.md` before mutation. Preserve a baseline audit, map edits to evidence, apply the smallest evidence-supported launch-surface patch, verify, re-audit with the same rubric version, then generate the diff. If a public claim is CONTRADICTED because a product feature does not exist, default to correcting the public claim rather than silently implementing a feature for points.
 
 ### README
 Read `references/readme-system.md`. Improve only evidence-supported presentation/documentation. Never invent metrics, users, compatibility, benchmarks, or security claims.
@@ -252,16 +193,8 @@ Read `references/badge.md`. A badge is a snapshot of validated launch readiness,
 
 ## Launch Pattern Library
 
-When a failure resembles a recurring repository-launch anti-pattern, read `references/pattern-library.md` and optionally query the bundled library:
-
-```bash
-python3 <skill-directory>/scripts/search_patterns.py --query "missing readme"
-python3 <skill-directory>/scripts/search_patterns.py --category trust
-python3 <skill-directory>/scripts/search_patterns.py --severity HIGH
-```
-
-Use patterns to improve diagnosis and remediation, never to override direct evidence from the inspected project.
+When a failure resembles a recurring repository-launch anti-pattern, read `references/pattern-library.md` and optionally query the bundled library. Use patterns to improve diagnosis and remediation, never to override direct evidence.
 
 ## Safety
 
-Prefer non-destructive local checks. Never deploy, publish packages, migrate production data, expose secrets, make purchases, start paid services, or execute suspicious project code solely to improve a score. Network access is optional; RepoReel must remain useful offline except for explicitly remote URL inspection.
+Prefer non-destructive local checks. Never deploy, publish packages, migrate production data, expose secrets, make purchases, start paid services, or execute suspicious project code solely to improve a score. Network access is optional; Evidock must remain useful offline except for explicitly remote URL inspection.

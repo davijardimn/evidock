@@ -1,29 +1,16 @@
 {
-  "name": "reporeel",
-  "owner": {
-    "name": "Davi Jardim Nascimento",
-    "url": "https://github.com/davijardimn"
-  },
+  "name": "evidock",
+  "owner": {"name": "Davi Jardim Nascimento", "url": "https://github.com/davijardimn"},
   "metadata": {
-    "description": "RepoReel turns a software repository or GitHub URL into an evidence-backed launch review with deterministic scoring, scoped proof, Fix Mode, and shareable artifacts.",
-    "version": "0.8.0"
+    "description": "Evidock turns a software repository or GitHub URL into an evidence-backed launch review with deterministic scoring, scoped proof, Fix Mode, and shareable artifacts.",
+    "version": "0.9.0"
   },
-  "plugins": [
-    {
-      "name": "reporeel",
-      "source": "./",
-      "description": "Audit, roast, verify, prove, fix and launch software repositories with an evidence-first Launch Score, GitHub URL Roast, before/after diffs and shareable RepoReel artifacts.",
-      "version": "0.8.0",
-      "category": "developer-tools",
-      "keywords": [
-        "github",
-        "repository",
-        "readme",
-        "launch",
-        "audit",
-        "developer-tools",
-        "agent-skills"
-      ]
-    }
-  ]
+  "plugins": [{
+    "name": "evidock",
+    "source": "./",
+    "description": "Audit, roast, verify, prove, fix and launch software repositories with an evidence-first Launch Score, GitHub URL Roast, before/after diffs and shareable Evidock artifacts.",
+    "version": "0.9.0",
+    "category": "developer-tools",
+    "keywords": ["github", "repository", "readme", "launch", "audit", "developer-tools", "agent-skills", "evidence"]
+  }]
 }

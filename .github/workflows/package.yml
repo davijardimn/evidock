@@ -19,14 +19,14 @@ jobs:
         run: python tools/smoke_test.py
       - uses: actions/upload-artifact@v4
         with:
-          name: reporeel-skill
-          path: dist/reporeel.zip
+          name: evidock-skill
+          path: dist/evidock.zip
       - name: Attach versioned Skill ZIP to GitHub Release
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          cp dist/reporeel.zip "dist/reporeel-${RELEASE_TAG}.zip"
-          sha256sum "dist/reporeel-${RELEASE_TAG}.zip" > "dist/reporeel-${RELEASE_TAG}.zip.sha256"
-          gh release upload "$RELEASE_TAG" "dist/reporeel-${RELEASE_TAG}.zip" "dist/reporeel-${RELEASE_TAG}.zip.sha256"
+          cp dist/evidock.zip "dist/evidock-${RELEASE_TAG}.zip"
+          sha256sum "dist/evidock-${RELEASE_TAG}.zip" > "dist/evidock-${RELEASE_TAG}.zip.sha256"
+          gh release upload "$RELEASE_TAG" "dist/evidock-${RELEASE_TAG}.zip" "dist/evidock-${RELEASE_TAG}.zip.sha256"

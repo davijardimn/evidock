@@ -1,6 +1,6 @@
 import json,subprocess,sys,tempfile,unittest
 from pathlib import Path
-ROOT=Path(__file__).resolve().parent.parent; S=ROOT/'skills/reporeel/scripts'
+ROOT=Path(__file__).resolve().parent.parent; S=ROOT/'skills/evidock/scripts'
 class SkillToolsTests(unittest.TestCase):
     def test_search_patterns(self):
         p=subprocess.run([sys.executable,str(S/'search_patterns.py'),'--query','missing readme'],capture_output=True,text=True,check=True); self.assertIn('front-door-void',p.stdout)

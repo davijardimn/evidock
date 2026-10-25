@@ -1,19 +1,8 @@
 {
-  "name": "reporeel",
+  "name": "evidock",
   "description": "Evidence-first repository launch audit: roast GitHub URLs or local repos, verify claims, prove workflows safely, fix launch blockers, score readiness, and render shareable artifacts.",
-  "version": "0.8.0",
-  "author": {
-    "name": "Davi Jardim Nascimento"
-  },
+  "version": "0.9.0",
+  "author": {"name": "Davi Jardim Nascimento"},
   "license": "MIT",
-  "keywords": [
-    "github",
-    "repository",
-    "launch",
-    "readme",
-    "developer-tools",
-    "agent-skills",
-    "audit",
-    "claude"
-  ]
+  "keywords": ["github", "repository", "launch", "readme", "developer-tools", "agent-skills", "audit", "claude", "evidence"]
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify RepoReel output artifacts without requiring a GUI or rasterizer."""
+"""Verify Evidock output artifacts without requiring a GUI or rasterizer."""
 from __future__ import annotations
 import argparse,json,subprocess,sys,xml.etree.ElementTree as ET
 from pathlib import Path
@@ -28,11 +28,11 @@ def main():
         p=Path(a.report)
         if not p.is_file() or p.stat().st_size<500: fail('report.html missing or unexpectedly small')
         text=p.read_text(encoding='utf-8')
-        for marker in ['REPOREEL','THE REEL BREAKER','SCORECARD','CLAIM VERIFICATION','PROOF MODE','CRITERIA']:
+        for marker in ['EVIDOCK','THE SHIP BLOCKER','SCORECARD','CLAIM VERIFICATION','PROOF MODE','CRITERIA']:
             if marker not in text: fail(f'report.html missing section: {marker}')
         if f'>{int(d["launch_score"]):02d}<' not in text or d['launch_status'] not in text: fail('report.html does not contain the audit score/status')
         for proof in d.get('proof_runs') or []:
             if proof.get('id') and proof['id'] not in text: fail(f'report.html missing proof run {proof["id"]}')
         checked.append('report.html')
-    print('VALID RepoReel artifacts: '+', '.join(checked)); print('Note: structural validation does not claim human visual inspection.')
+    print('VALID Evidock artifacts: '+', '.join(checked)); print('Note: structural validation does not claim human visual inspection.')
 if __name__=='__main__': main()

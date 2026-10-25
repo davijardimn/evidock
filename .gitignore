@@ -1,7 +1,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-.reporeel/
+.evidock/
 dist/
 .DS_Store
 Thumbs.db
