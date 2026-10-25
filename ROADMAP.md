@@ -2,27 +2,31 @@
 
 RepoReel is intentionally a Skill first. The roadmap favors stronger evidence, better artifacts, and portable Agent Skills behavior over turning the project into a generic SaaS.
 
-## 0.7 — public repository edition
+## 0.8 — close the launch loop
 
-- plugin marketplace structure
-- packaging/release tooling
-- launch-pattern library
-- cross-platform smoke tests
-- behavioral eval suite
+- GitHub URL Roast with a read-only evidence collector
+- evidence-preserving Fix Mode
+- before/after re-audit loop
+- static RepoReel badge + Markdown snippet
+- URL/fix/badge behavioral evals and smoke coverage
 
-## Next
+## Next — validate in the wild
 
-- richer, versioned synthetic eval fixtures
-- GitHub metadata inspection when the host exposes it
-- optional README badge renderer
-- stronger package/ecosystem-specific Front Door checks
-- more launch patterns contributed from real-world failures
-- reproducible demo recordings for the README
+The priority after v0.8 is external evidence, not feature volume:
+
+- audit unrelated public repositories and record false positives/false negatives
+- turn real failures into eval cases and launch patterns
+- improve ecosystem-specific Front Door checks only where repeated evidence justifies them
+- add richer versioned synthetic eval fixtures
+- improve reproducible demo material from real RepoReel runs
 
 ## Later, only if evidence justifies it
 
+- historical/trend views across compatible RepoReel audits
+- a release-gate helper for CI
 - a thin CLI wrapper around deterministic scripts
-- GitHub Action helpers for artifact validation
-- trend/history views across compatible RepoReel audits
+- optional hosted/public report surfaces
+
+A hosted service, growth dashboard, generic code-review engine, or security scanner should not be added unless real usage shows that it strengthens the evidence-first launch workflow.
 
 The Skill remains the source product; wrappers should not replace the evidence model.

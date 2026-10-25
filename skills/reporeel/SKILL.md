@@ -1,24 +1,24 @@
 ---
 name: reporeel
-description: Evidence-first launch audit for software repositories. Use this skill whenever someone wants to roast, audit, score, verify, prove, improve, package, or prepare a repo for GitHub/Hacker News/Reddit; improve a README or repository Front Door; check whether public feature claims are actually supported; compare before/after launch readiness; generate a shareable score card/report; or asks why a project is not getting attention or stars. Also use for repository launch reviews even when the user does not say “RepoReel”.
+description: Evidence-first launch audit for software repositories. Use this skill whenever someone wants to roast, audit, score, verify, prove, improve, fix, package, or prepare a repo for GitHub/Hacker News/Reddit; audit a GitHub repository URL; improve a README or repository Front Door; check whether public feature claims are actually supported; compare before/after launch readiness; generate a shareable score card/report/badge; or asks why a project is not getting attention or stars. Also use for repository launch reviews even when the user does not say “RepoReel”.
 license: MIT
 metadata:
   author: Davi Jardim Nascimento
-  version: "0.7.0"
+  version: "0.8.0"
 ---
 
 # RepoReel
 
 **Your code might be ready. Your repo probably isn't.**
 
-RepoReel audits, proves, roasts, and improves how a software project appears before launch.
+RepoReel audits, proves, fixes, roasts, and improves how a software project appears before launch.
 
 > Market the evidence. Never manufacture it.
 
 ## Operating contract
 
 1. **Inspect before writing.** Build a project model from available evidence.
-2. **Separate discovery from implementation.** A fact hidden in source code does not make it clear at the repository front door.
+2. **Separate discovery from implementation.** A fact hidden in source code does not make it clear at the repository Front Door.
 3. **Classify claims.** Use VERIFIED, INFERRED, UNKNOWN, or CONTRADICTED.
 4. **Prove when safe.** Runtime checks can strengthen a claim, but only within the execution scope actually tested.
 5. **Score launch readiness only.** Launch Score is not code quality, product quality, security score, or product completeness.
@@ -26,11 +26,12 @@ RepoReel audits, proves, roasts, and improves how a software project appears bef
 7. **N_A is not PASS.** It earns 0 points. UNKNOWN earns 0 points and may make the result provisional.
 8. **Do not drift into generic code review.** Mention implementation/security findings only when they materially affect launch trust, reproducibility, truthfulness, or the primary demo path.
 9. **Redact sensitive evidence.** Prove the finding without republishing secrets, plaintext passwords, tokens, or unnecessary personal data. Read `references/redaction.md` when sensitive evidence appears.
+10. **No score gaming.** A fix may raise Launch Score only when underlying evidence improves. Never relax the rubric, hide a failure, fabricate proof, or rewrite the audit to manufacture progress.
 
-## Detect the environment
+## Detect the environment and input scope
 
 ### Chat mode
-Use when files/archives are supplied in Claude chat.
+Use when files/archives or repository links are supplied in Claude chat.
 - Analyze only accessible material.
 - State the evidence boundary.
 - An uploaded archive can be complete for that artifact without proving anything about an upstream repository.
@@ -42,9 +43,17 @@ Use in Claude Code with a local worktree.
 - Inspect the repository directly.
 - Use Git evidence when available.
 - Run safe project-defined checks when useful.
-- `audit`, `roast`, `verify`, and `diff` must not change application source.
+- `audit`, `roast`, `verify`, `proof`, and `diff` must not change application source.
 
-Read `references/scope.md` when completeness or execution scope matters.
+### GitHub URL input
+When the user supplies `https://github.com/owner/repo` (or a deeper URL within that repo), read `references/github-url.md`.
+- Prefer a connected read-only GitHub/repository tool when available.
+- Otherwise, when Python + network are available, use `scripts/inspect_github.py`.
+- Remote URL inspection is static evidence, not runtime proof.
+- Never ask the user to paste a GitHub token into chat. The collector may use an already-configured `GITHUB_TOKEN` without emitting it.
+- If the remote repository cannot be accessed, say so rather than pretending it was inspected.
+
+Read `references/scope.md` whenever completeness or execution scope could change a scored criterion.
 
 ## Modes
 
@@ -54,13 +63,13 @@ Read `references/scope.md` when completeness or execution scope matters.
 | `roast` | Ruthless 10-second visitor assessment | No |
 | `verify` | Verify consequential public claims | No |
 | `proof` | Safely test a claim/workflow at runtime | No |
-| `fix` | Fix highest-impact presentation/docs issues | Yes when editable |
-| `readme` | Create or improve README | Yes/output artifact |
+| `fix` | Baseline → plan → minimal launch-surface patch → verify → re-audit → diff | Yes when editable |
+| `readme` | Create or improve README from evidence | Yes/output artifact |
 | `launch` | Create launch material from verified evidence | Output artifacts |
 | `diff` | Compare compatible before/after audits | No |
-| `ship` | Discover → verify/prove → audit → improve → re-audit → launch | Yes/output artifacts |
+| `ship` | Discover → verify/prove → audit → fix → re-audit → artifacts → launch | Yes/output artifacts |
 
-Natural-language equivalents count. If the user only says "use RepoReel", default to `ship` when enough evidence exists; otherwise run `audit`.
+Natural-language equivalents count. If the user only says “use RepoReel”, default to `ship` when enough editable evidence exists; otherwise run `audit`.
 
 ## Core workflow
 
@@ -75,11 +84,21 @@ Inspect, when available:
 - screenshots/demos/assets
 - Git metadata
 
-When filesystem access exists, prefer:
+For a local filesystem, prefer:
 
 ```bash
 python3 <skill-directory>/scripts/inspect_repo.py --root <project-root> --output <working-dir>/evidence.json
 ```
+
+For a GitHub URL when no native repository connector is available:
+
+```bash
+python3 <skill-directory>/scripts/inspect_github.py \
+  --repo https://github.com/owner/repo \
+  --output <working-dir>/github-evidence.json
+```
+
+The URL collector is read-only and bounded. Treat truncation/unavailable files as uninspected scope, not confirmed absence.
 
 ### 2. Evaluate the Front Door
 The Front Door is what a stranger can learn **before running or spelunking through source code**. Read `references/front-door.md`.
@@ -113,7 +132,7 @@ Prefer the smallest non-destructive runtime experiment that can confirm/refute a
 - observations
 - limitations
 
-A sandbox pass proves only the tested sandbox/configuration.
+A sandbox pass proves only the tested sandbox/configuration. A remote GitHub URL by itself is not Proof Mode.
 
 ### 5. Determine Launch Status
 Read `references/launch-status.md`.
@@ -137,6 +156,8 @@ Categories total 100:
 
 Each criterion must have a state and evidence. Only PASS gets its full points. Never invent partial points.
 
+The stable audit/rubric schema remains `0.6` in RepoReel v0.8.0 so compatible historical audits can still be diffed.
+
 ### 7. Persist structured output when supported
 Read `references/audit-schema.md`.
 
@@ -145,10 +166,15 @@ Preferred artifacts:
 ```text
 .reporeel/
 ├── evidence.json
+├── github-evidence.json   # URL input when used
 ├── audit.json
 ├── report.html
 ├── card.svg
-└── diff.svg              # when comparing audits
+├── badge.svg
+├── badge.md
+├── before.audit.json      # Fix Mode
+├── after.audit.json       # Fix Mode
+└── diff.svg               # compatible before/after audits
 ```
 
 Validate before rendering:
@@ -157,6 +183,7 @@ Validate before rendering:
 python3 <skill-directory>/scripts/validate_audit.py --audit <audit.json>
 python3 <skill-directory>/scripts/render_card.py --audit <audit.json> --output <card.svg>
 python3 <skill-directory>/scripts/render_report.py --audit <audit.json> --output <report.html>
+python3 <skill-directory>/scripts/render_badge.py --audit <audit.json> --output <badge.svg> --markdown-output <badge.md>
 python3 <skill-directory>/scripts/verify_artifacts.py --audit <audit.json> --card <card.svg> --report <report.html>
 ```
 
@@ -166,9 +193,9 @@ For before/after:
 python3 <skill-directory>/scripts/render_diff.py --before <before.json> --after <after.json> --output <diff.svg>
 ```
 
-`audit.json` is the source of truth. Renderers must not reinterpret scores. Read `references/artifact-integrity.md`. If the environment cannot visually preview an SVG, report structural validation instead of claiming that you inspected its appearance.
+`audit.json` is the source of truth. Renderers must not reinterpret scores. Read `references/artifact-integrity.md` and `references/badge.md`. If the environment cannot visually preview an SVG, report structural validation instead of claiming that you inspected its appearance.
 
-## Mode-specific output
+## Mode-specific behavior
 
 ### Roast
 Use this recognizable order:
@@ -180,7 +207,7 @@ LAUNCH READINESS
 10-SECOND TEST
 THE REEL BREAKER
 CLAIM VERIFICATION
-PROOF MODE            # only if runtime proof was run
+PROOF MODE            # only if runtime proof actually ran
 LAUNCH BLOCKERS
 SCORECARD
 IF THIS WERE MY REPO
@@ -190,20 +217,38 @@ IF THIS WERE MY REPO
 
 Be sharp but useful. Do not insult the author. Do not end with a question. End with the diagnosis and `Then run RepoReel roast again.`
 
+For URL Roast, explicitly label the scope as remote/static when that is all that was inspected.
+
 ### Audit
 Be less theatrical than roast. Include scope, snapshot, status, Launch Score, strengths, gaps, unknowns, and priorities.
 
 ### Verify / Proof
 Do not treat documentation as runtime proof. State exactly what was and was not tested.
 
-### Fix / README
-Read `references/readme-system.md`. Fix only evidence-supported presentation/documentation. Never invent metrics, users, compatibility, benchmarks, or security claims.
+### Fix
+Read `references/fix-mode.md` before mutation.
+
+Default sequence:
+1. Preserve a baseline audit.
+2. Map each planned edit to a blocker/failed criterion.
+3. Apply the smallest evidence-supported launch-surface patch.
+4. Verify the changed surface.
+5. Re-audit with the same rubric version.
+6. Generate the before/after diff.
+
+If a public claim is CONTRADICTED because a product feature does not exist, default to correcting the public claim. Implementing missing product behavior is a separate task unless the user explicitly asks for it.
+
+### README
+Read `references/readme-system.md`. Improve only evidence-supported presentation/documentation. Never invent metrics, users, compatibility, benchmarks, or security claims.
 
 ### Launch
 Read `references/launch.md`. Generate channel-native copy only from verified evidence and clearly framed inferences.
 
 ### Diff
 Read `references/diff.md`. Only compare matching `rubric_version` values.
+
+### Badge
+Read `references/badge.md`. A badge is a snapshot of validated launch readiness, not a quality/security certification. Never hand-edit it to display a better result.
 
 ## Launch Pattern Library
 
@@ -219,4 +264,4 @@ Use patterns to improve diagnosis and remediation, never to override direct evid
 
 ## Safety
 
-Prefer non-destructive local checks. Never deploy, publish packages, migrate production data, expose secrets, make purchases, start paid services, or execute suspicious project code solely to improve a score. Network access is optional; RepoReel must remain useful offline.
+Prefer non-destructive local checks. Never deploy, publish packages, migrate production data, expose secrets, make purchases, start paid services, or execute suspicious project code solely to improve a score. Network access is optional; RepoReel must remain useful offline except for explicitly remote URL inspection.
