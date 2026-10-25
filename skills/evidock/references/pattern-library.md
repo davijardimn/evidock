@@ -1,6 +1,6 @@
 # Launch Pattern Library
 
-RepoReel ships a curated library of recurring repository-launch failure modes in `assets/patterns.json`.
+Evidock ships a curated library of recurring repository-launch failure modes in `assets/patterns.json`.
 
 Use it when direct evidence resembles a known anti-pattern and you want a sharper name, impact statement, or remediation path. The library is diagnostic support, not scoring evidence: direct project evidence and the versioned rubric always win.
 
