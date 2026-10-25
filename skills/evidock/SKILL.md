@@ -4,7 +4,7 @@ description: Evidence-first launch audit for software repositories. Use this ski
 license: MIT
 metadata:
   author: Davi Jardim Nascimento
-  version: "0.9.1"
+  version: "0.9.2"
 ---
 
 # Evidock
@@ -111,7 +111,7 @@ Read `references/launch-status.md`. Launch Status is independent of Launch Score
 ### 6. Calculate Launch Score
 Read `references/audit-rubric.md`. Categories total 100: Discovery 20, Demonstration 20, Quick Start 20, Documentation 15, Trust 15, Polish 10. Each criterion must have a state and evidence. Only PASS gets its full points.
 
-The stable audit/rubric schema remains `0.6` in Evidock v0.9.1 so compatible historical audits can still be diffed. The structured field `reel_breaker` is retained for v0.6 schema compatibility; user-facing output calls it **THE SHIP BLOCKER**.
+The stable audit/rubric schema remains `0.6` in Evidock v0.9.2 so compatible historical audits can still be diffed. The structured field `reel_breaker` is retained for v0.6 schema compatibility; user-facing output calls it **THE SHIP BLOCKER**.
 
 ### 7. Persist structured output when supported
 Read `references/audit-schema.md`.
