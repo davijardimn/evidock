@@ -1,4 +1,4 @@
-# Evidock — first 72 hours
+# Evidock: first 72 hours
 
 ## Before launch
 

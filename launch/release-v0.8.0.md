@@ -1,4 +1,4 @@
-# RepoReel v0.8.0 — Close the launch loop
+# RepoReel v0.8.0: Close the launch loop
 
 **Your code might be ready. Your repo probably isn't.**
 
@@ -97,6 +97,6 @@ Use RepoReel to roast https://github.com/owner/repo
 
 > Market the evidence. Never manufacture it.
 
-Launch Score measures repository launch readiness — not code quality, product quality, security, compatibility, or product completeness.
+Launch Score measures repository launch readiness. It does not measure code quality, product quality, security, compatibility, or product completeness.
 
 Repository: https://github.com/davijardimn/reporeel

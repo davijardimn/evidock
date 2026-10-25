@@ -1,4 +1,4 @@
-# Evidock v0.9.1 — Branding cleanup
+# Evidock v0.9.1: Branding cleanup
 
 v0.9.1 is a small pre-promotion cleanup release for Evidock.
 

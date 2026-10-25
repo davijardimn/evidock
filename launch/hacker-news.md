@@ -1,4 +1,4 @@
-# Hacker News factual outline — write the final submission manually
+# Hacker News factual outline: write the final submission manually
 
 Do not paste generated launch copy into Hacker News. Re-check current HN guidelines immediately before submitting.
 

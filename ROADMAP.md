@@ -2,7 +2,7 @@
 
 Evidock is intentionally a Skill first. The roadmap favors stronger evidence, better artifacts, and portable Agent Skills behavior over turning the project into a generic SaaS.
 
-## 0.9 — Evidock identity
+## 0.9: Evidock identity
 
 - rebrand RepoReel → Evidock before broad promotion
 - rename Skill/package/artifact paths to `evidock` / `.evidock`
@@ -10,7 +10,7 @@ Evidock is intentionally a Skill first. The roadmap favors stronger evidence, be
 - preserve GitHub URL Roast, evidence-preserving Fix Mode, diff and badge integrity
 - validate the renamed package across Linux, Windows and macOS
 
-## Next — validate in the wild
+## Next: validate in the wild
 
 The priority after v0.9 is external evidence, not feature volume: audit unrelated public repositories; record false positives/false negatives; turn real failures into evals/patterns/tests; improve ecosystem-specific checks only where repeated evidence justifies them; publish reproducible demos from real Evidock runs.
 

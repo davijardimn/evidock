@@ -1,4 +1,4 @@
-# I built Evidock — an evidence-first repository launch reviewer for Claude
+# I built Evidock: an evidence-first repository launch reviewer for Claude
 
 I built Evidock because a project can be technically solid and still be almost impossible for a stranger to understand, trust, or try from its GitHub page.
 

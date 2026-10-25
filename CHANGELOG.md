@@ -1,13 +1,13 @@
 # Changelog
 
-## 0.9.1 — Branding cleanup
+## 0.9.1: Branding cleanup
 
 - Removed stale RepoReel wording from packaged Evidock reference files and the audit template.
 - Updated the default `reel_breaker` example value to the user-facing **Ship Blocker** terminology while retaining the field name for v0.6 schema compatibility.
 - Added a packaging regression test so stale RepoReel / Reel Breaker copy cannot silently return outside the intentional legacy alias in `SKILL.md`.
 - Kept the Launch Score rubric/schema at v0.6; scoring behavior is unchanged.
 
-## 0.9.0 — Evidock
+## 0.9.0: Evidock
 
 - Rebranded **RepoReel → Evidock** before broad public promotion.
 - New product line: **Evidence before you ship.**
@@ -18,7 +18,7 @@
 - Updated Claude plugin/marketplace metadata, package workflow, tests, docs and launch material for Evidock.
 - Kept Launch Score rubric/schema at v0.6 so compatible historical audits remain diffable.
 
-## 0.8.0 — Close the launch loop
+## 0.8.0: Close the launch loop
 
 - Added GitHub URL Roast with a bounded, read-only evidence collector.
 - Hardened Fix Mode into baseline → plan → minimal patch → verification → re-audit → diff.
@@ -26,7 +26,7 @@
 - Added a static shareable badge from validated `audit.json`.
 - Expanded behavioral eval and cross-platform test coverage.
 
-## 0.7.0 — Public repository edition
+## 0.7.0: Public repository edition
 
 - Adopted the standard Agent Skills layout.
 - Added Front Door, Proof Mode, deterministic scoring, artifact validation, a 32-pattern launch anti-pattern library, behavioral evals, tests and CI.

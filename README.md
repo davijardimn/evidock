@@ -1,8 +1,10 @@
 <p align="center">
-  <img src="docs/images/hero.svg" alt="Evidock — evidence-first repository launch audits" width="100%">
+  <img src="docs/images/hero.svg" alt="Evidock: evidence-first repository launch audits" width="100%">
 </p>
 
-# Evidock — evidence before you ship
+# Evidock
+
+**Evidence before you ship.**
 
 <p align="center">
   <a href="https://github.com/davijardimn/evidock/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/davijardimn/evidock?style=flat-square"></a>
@@ -11,7 +13,7 @@
   <img alt="Python standard library only" src="https://img.shields.io/badge/runtime-Python%20stdlib%20only-3776AB?style=flat-square">
 </p>
 
-Evidock turns Claude — or any agent that supports the Agent Skills format — into an **evidence-first launch reviewer for software repositories**. Give it a local repository or GitHub URL and it tells you why a stranger may bounce, checks what the README claims, proves important workflows when safe, scores launch readiness with an auditable rubric, fixes launch-surface problems, and renders shareable before/after artifacts.
+Evidock turns Claude and other agents that support the Agent Skills format into an **evidence-first launch reviewer for software repositories**. Give it a local repository or GitHub URL and it tells you why a stranger may bounce, checks what the README claims, proves important workflows when safe, scores launch readiness with an auditable rubric, fixes launch-surface problems, and renders shareable before/after artifacts.
 
 > **Market the evidence. Never manufacture it.**
 
@@ -247,4 +249,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
