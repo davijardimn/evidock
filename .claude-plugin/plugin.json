@@ -1,0 +1,19 @@
+{
+  "name": "reporeel",
+  "description": "Evidence-first repository launch audit: roast the Front Door, verify public claims, prove workflows safely, score launch readiness, and render shareable cards/reports.",
+  "version": "0.7.0",
+  "author": {
+    "name": "Davi Jardim Nascimento"
+  },
+  "license": "MIT",
+  "keywords": [
+    "github",
+    "repository",
+    "launch",
+    "readme",
+    "developer-tools",
+    "agent-skills",
+    "audit",
+    "claude"
+  ]
+}

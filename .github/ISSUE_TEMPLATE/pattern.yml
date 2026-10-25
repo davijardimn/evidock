@@ -1,0 +1,24 @@
+name: Launch pattern proposal
+description: Propose a recurring repository-launch anti-pattern for the bundled library.
+title: "[pattern] "
+labels: [pattern]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Pattern name
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Observable evidence signals
+      description: What concrete repository evidence makes this pattern applicable?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Launch impact and remediation
+    validations:
+      required: true

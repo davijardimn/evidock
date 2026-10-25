@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.reporeel/
+dist/
+.DS_Store
+Thumbs.db

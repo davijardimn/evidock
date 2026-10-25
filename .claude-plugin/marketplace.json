@@ -1,0 +1,29 @@
+{
+  "name": "reporeel",
+  "owner": {
+    "name": "Davi Jardim Nascimento",
+    "url": "https://github.com/davijardimn"
+  },
+  "metadata": {
+    "description": "RepoReel turns a software repository into an evidence-backed launch review with deterministic scoring, Proof Mode, and shareable artifacts.",
+    "version": "0.7.0"
+  },
+  "plugins": [
+    {
+      "name": "reporeel",
+      "source": "./",
+      "description": "Audit, roast, verify, prove, improve and launch software repositories with an evidence-first Launch Score and shareable RepoReel artifacts.",
+      "version": "0.7.0",
+      "category": "developer-tools",
+      "keywords": [
+        "github",
+        "repository",
+        "readme",
+        "launch",
+        "audit",
+        "developer-tools",
+        "agent-skills"
+      ]
+    }
+  ]
+}

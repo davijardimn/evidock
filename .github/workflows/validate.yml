@@ -1,0 +1,24 @@
+name: validate
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.x"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Skill smoke test
+        run: python tools/smoke_test.py
+      - name: Eval lint
+        run: python tools/lint_evals.py

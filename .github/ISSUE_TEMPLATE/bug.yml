@@ -1,0 +1,29 @@
+name: Bug report
+description: Reproducible problem in the skill, scripts, artifacts, packaging, or docs.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Include the smallest safe reproduction, command, prompt, or fixture. Redact secrets and personal data.
+    validations:
+      required: true
+  - type: input
+    id: surface
+    attributes:
+      label: Surface / host
+      placeholder: Claude.ai, Claude Code, Codex, Gemini CLI, etc.
+  - type: input
+    id: version
+    attributes:
+      label: RepoReel version
+      placeholder: 0.7.0
