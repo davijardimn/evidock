@@ -2,15 +2,14 @@
 
 ## Before launch
 
-- Rename repository to `davijardimn/evidock`.
-- Merge the v0.9.0 rebrand only after CI is green.
-- Publish v0.9.0 and verify `evidock-v0.9.0.zip` + SHA-256.
-- Test the exact Release ZIP in Claude.ai/Desktop and Claude Code.
-- Run one unrelated repository through URL Roast → Fix Mode → re-audit → diff → badge.
+- Publish v0.9.2 and verify `evidock-v0.9.2.zip` plus its SHA-256 file.
+- Test the exact Release ZIP in Claude.ai/Desktop.
+- Verify Claude Code installation from a clean environment.
+- Keep the real unrelated-repository proof ready: AudioCleaner `57 → 71 (+14)` with the remaining evidence gaps disclosed.
 
 ## Launch day
 
-Lead with a real result, not a feature list. The strongest format is a screenshot/card plus one sentence explaining the before → after and the evidence boundary.
+Lead with the real result, not a feature list. Use the before/after artifact and explain that Evidock improved only what the evidence supported. Make it explicit that the tool refused to invent the missing proof needed for a higher score.
 
 ## Next 48 hours
 
