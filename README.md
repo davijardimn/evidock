@@ -93,7 +93,7 @@ Polish           10
 
 Each criterion is `PASS`, `FAIL`, `N_A` or `UNKNOWN`. Only `PASS` earns points. Launch Status is separate: `READY`, `CAUTION`, `BLOCKED`, or `UNKNOWN`.
 
-The stable audit/rubric schema remains v0.6 in Evidock v0.9.0 so compatible historical audits can still be compared.
+The stable audit/rubric schema remains v0.6 in Evidock v0.9.1 so compatible historical audits can still be compared.
 
 ## Evidence model
 
