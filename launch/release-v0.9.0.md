@@ -1,4 +1,4 @@
-# Evidock v0.9.0 — Evidence before you ship
+# Evidock v0.9.0: Evidence before you ship
 
 v0.9.0 is the public identity release: **RepoReel is now Evidock**.
 

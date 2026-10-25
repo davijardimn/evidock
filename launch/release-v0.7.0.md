@@ -1,4 +1,4 @@
-# RepoReel v0.7.0 — Public repository edition
+# RepoReel v0.7.0: Public repository edition
 
 **Your code might be ready. Your repo probably isn't.**
 
@@ -35,6 +35,6 @@ Generate the card and report too.
 
 > Market the evidence. Never manufacture it.
 
-Launch Score measures repository launch readiness — not code quality, product quality, security, or product completeness.
+Launch Score measures repository launch readiness. It does not measure code quality, product quality, security, or product completeness.
 
 Repository: https://github.com/davijardimn/reporeel

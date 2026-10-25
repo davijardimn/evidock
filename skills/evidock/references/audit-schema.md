@@ -1,4 +1,4 @@
-# Evidock Audit JSON — stable schema v0.6
+# Evidock Audit JSON: stable schema v0.6
 
 `audit.json` is the source of truth for cards, reports, diffs, and badges.
 

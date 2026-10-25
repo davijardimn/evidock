@@ -2,10 +2,10 @@
 
 Launch Status is independent from Launch Score.
 
-READY — no material launch blocker observed.
-CAUTION — launch is possible but meaningful risks/gaps should be disclosed or fixed soon.
-BLOCKED — at least one blocker makes the advertised project materially unusable, misleading, unsafe for represented use, or impossible to evaluate/install in inspected scope.
-UNKNOWN — scope is too incomplete to judge responsibly.
+READY: no material launch blocker observed.
+CAUTION: launch is possible but meaningful risks/gaps should be disclosed or fixed soon.
+BLOCKED: at least one blocker makes the advertised project materially unusable, misleading, unsafe for represented use, or impossible to evaluate/install in inspected scope.
+UNKNOWN: scope is too incomplete to judge responsibly.
 
 Blockers must materially harm install/run/try path, truthfulness of a consequential claim, baseline trust, primary demo path, or destructive/security behavior relevant to launch.
 

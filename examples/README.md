@@ -2,9 +2,9 @@
 
 The bundled examples are synthetic so they can be shared safely.
 
-- `before.audit.json` — a repository with almost no launch surface
-- `after.audit.json` — the same fictional project after documentation/proof/trust improvements
-- `self.audit.json` — an Evidock self-audit fixture
+- `before.audit.json`: a repository with almost no launch surface
+- `after.audit.json`: the same fictional project after documentation/proof/trust improvements
+- `self.audit.json`: an Evidock self-audit fixture
 
 Generate artifacts:
 
