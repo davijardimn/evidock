@@ -6,21 +6,86 @@
 
 <p align="center">
   <a href="https://github.com/davijardimn/reporeel/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/davijardimn/reporeel?style=flat-square"></a>
-  <a href="https://github.com/davijardimn/reporeel/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/davijardimn/reporeel?display_name=tag&style=flat-square"></a>
+  <a href="https://github.com/davijardimn/reporeel/actions/workflows/validate.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/davijardimn/reporeel/validate.yml?branch=main&style=flat-square&label=tests"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"></a>
+  <img alt="Python standard library only" src="https://img.shields.io/badge/runtime-Python%20stdlib%20only-3776AB?style=flat-square">
 </p>
 
-RepoReel turns Claude — or any agent that supports the Agent Skills format — into an **evidence-first launch reviewer for software repositories**. It inspects the Front Door, verifies public claims, safely proves important workflows, calculates an auditable Launch Score, and renders shareable artifacts before you put a project in front of GitHub, Hacker News, Reddit or users.
-
-- **Front Door audit** — can a stranger understand what this is, who it is for, why it matters, and how to try it without spelunking through source?
-- **Claim Verification + Proof Mode** — separates documentation from evidence and can run small, non-destructive experiments when static inspection is not enough.
-- **Deterministic Launch Score** — every point maps to a versioned `PASS / FAIL / N_A / UNKNOWN` criterion; `N_A` never earns free credit.
-- **Shareable output** — `audit.json`, score card, HTML report and before → after diff, all derived from validated structured data.
-- **Launch Pattern Library** — a searchable library of recurring repository-launch anti-patterns and evidence-backed remediation paths.
+RepoReel turns Claude — or any agent that supports the Agent Skills format — into an **evidence-first launch reviewer for software repositories**. It tells you why a stranger would bounce, verifies what your README claims, safely proves important workflows, scores launch readiness with an auditable rubric, and renders shareable before/after artifacts.
 
 > **Market the evidence. Never manufacture it.**
 
-**Contents:** [How it works](#how-it-works) · [Install](#install) · [Example](#example) · [Use](#use) · [What’s inside](#whats-inside) · [Pattern library](#launch-pattern-library) · [Tests & evals](#tests--evals)
+## Try it in 30 seconds
+
+### 1. Install in Claude Code
+
+```text
+/plugin marketplace add davijardimn/reporeel
+/plugin install reporeel@reporeel
+```
+
+### 2. Open any software repository and ask
+
+```text
+Use RepoReel to roast this repository.
+Use Proof Mode where it is safe and useful.
+Generate the card and report too.
+```
+
+That is enough. RepoReel inspects the repository, separates what a visitor can see from what an agent can infer, verifies public claims, runs scoped proof when useful, and builds the audit from evidence.
+
+<p align="center">
+  <img src="docs/images/demo-flow.svg" alt="RepoReel roast to fix to diff demo" width="100%">
+</p>
+
+The score above is **launch readiness**, not code quality. A brilliant project can score badly when its repository does not explain, prove or package the product well.
+
+## What RepoReel catches
+
+| Problem | What RepoReel does |
+| --- | --- |
+| The product only makes sense after reading source | **Front Door audit** tests what a stranger understands before source spelunking |
+| README promises more than the code delivers | **Claim Verification** classifies claims as VERIFIED / INFERRED / UNKNOWN / CONTRADICTED |
+| Static inspection is not enough | **Proof Mode** runs small, safe experiments and records scope + limitations |
+| “AI score” feels arbitrary | **Deterministic Launch Score** maps every point to PASS / FAIL / N_A / UNKNOWN; `N_A` earns 0 |
+| The same launch mistakes repeat across repos | **32-pattern library** names recurring failures such as `front-door-void`, `claim-exceeds-code`, `platform-trap` and `na-as-pass` |
+| The audit is hard to share | **Validated artifacts** generate `card.svg`, `report.html` and `diff.svg` from structured `audit.json` |
+
+**Contents:** [Install](#install) · [How it works](#how-it-works) · [Example](#example) · [Use](#use) · [What’s inside](#whats-inside) · [Pattern library](#launch-pattern-library) · [Tests & evals](#tests--evals)
+
+---
+
+## Install
+
+### Claude Code — plugin marketplace (recommended)
+
+```text
+/plugin marketplace add davijardimn/reporeel
+/plugin install reporeel@reporeel
+```
+
+### Claude Code — manual
+
+```bash
+git clone https://github.com/davijardimn/reporeel.git
+cp -r reporeel/skills/reporeel ~/.claude/skills/reporeel
+# or per-project:
+cp -r reporeel/skills/reporeel .claude/skills/reporeel
+```
+
+### Claude.ai / Claude Desktop
+
+Build the uploadable Skill ZIP:
+
+```bash
+python tools/package_skill.py
+```
+
+Upload `dist/reporeel.zip` under Claude's Skills settings. The ZIP contains `reporeel/SKILL.md` at its root. A packaged ZIP is also intended to be attached to GitHub Releases.
+
+### Codex, Gemini CLI, Cursor and other agents
+
+RepoReel uses the open Agent Skills layout: a directory containing `SKILL.md`, plain Markdown references, JSON assets and dependency-free Python tools. Copy `skills/reporeel/` into the skills directory supported by your agent.
 
 ---
 
@@ -50,55 +115,20 @@ A criterion is not applicable             ≠ The criterion passed
 
 A `roast` ends with a diagnosis, not generic code-review noise. A `proof` records exactly what environment was exercised and what the result does **not** prove.
 
----
+### Evidence before copy
 
-## Install
+RepoReel classifies repository claims using four evidence states:
 
-### Claude Code — plugin marketplace
+- `VERIFIED` — directly supported by repository evidence or scoped proof.
+- `INFERRED` — strongly suggested, but not directly proven.
+- `UNKNOWN` — insufficient evidence.
+- `CONTRADICTED` — evidence conflicts with the public claim.
 
-Add the RepoReel repository as a Claude Code plugin marketplace, then install the plugin:
-
-```text
-/plugin marketplace add davijardimn/reporeel
-/plugin install reporeel@reporeel
-```
-
-The repository already includes `.claude-plugin/plugin.json` and `marketplace.json` for Claude Code installation.
-
-### Claude Code — manual
-
-```bash
-git clone https://github.com/davijardimn/reporeel.git
-cp -r reporeel/skills/reporeel ~/.claude/skills/reporeel
-# or per-project:
-cp -r reporeel/skills/reporeel .claude/skills/reporeel
-```
-
-### Claude.ai / Claude Desktop
-
-Build the uploadable Skill ZIP:
-
-```bash
-python tools/package_skill.py
-```
-
-Upload `dist/reporeel.zip` under Claude's Skills settings. The ZIP contains `reporeel/SKILL.md` at its root.
-
-### Codex, Gemini CLI, Cursor and other agents
-
-RepoReel uses the open Agent Skills layout: a directory containing `SKILL.md`, plain Markdown references, JSON assets and dependency-free Python tools. Copy `skills/reporeel/` into the skills directory supported by your agent.
+Secrets, passwords and unnecessary personal data are redacted from shareable reports. RepoReel proves the finding without republishing the sensitive value.
 
 ---
 
 ## Example
-
-Ask:
-
-```text
-Use RepoReel to roast this repository.
-Use Proof Mode where it is safe and useful.
-Generate the card and report too.
-```
 
 A roast follows a recognizable structure:
 
@@ -115,13 +145,24 @@ SCORECARD
 IF THIS WERE MY REPO
 ```
 
-The visual output is generated from validated `audit.json`, not re-scored by the renderer:
+The visual output is generated from validated `audit.json`; renderers do not invent or re-score anything:
 
-<p align="center"><img src="docs/images/roast-card.svg" alt="RepoReel score card" width="78%"></p>
+<p align="center"><img src="docs/images/roast-card.svg" alt="RepoReel score card" width="82%"></p>
 
 After improvements, `diff` makes the change visible:
 
-<p align="center"><img src="docs/images/before-after.svg" alt="RepoReel before and after score diff" width="78%"></p>
+<p align="center"><img src="docs/images/before-after.svg" alt="RepoReel before and after score diff" width="82%"></p>
+
+Typical output:
+
+```text
+.reporeel/
+├── evidence.json
+├── audit.json
+├── card.svg
+├── report.html
+└── diff.svg
+```
 
 ---
 
@@ -208,7 +249,7 @@ Patterns never replace direct evidence or the rubric. They help the agent name a
 
 ## Tests & evals
 
-Run the unit suite and end-to-end smoke test:
+RepoReel ships unit/integration tests, an end-to-end smoke test and a behavioral eval suite. CI runs the validation matrix on Linux, Windows and macOS with Python 3.9 and the latest available Python.
 
 ```bash
 python -m unittest discover -s tests -v
@@ -216,15 +257,13 @@ python tools/smoke_test.py
 python tools/lint_evals.py
 ```
 
-CI is designed to run on Linux, Windows and macOS so console/path assumptions do not silently make the Skill platform-specific.
-
-The `evals/` suite tests the behavioral contract: implicit triggering, scope discipline, redaction, `N_A != PASS`, runtime proof limits, claim verification, and preventing generic code-review drift. It does **not** pretend to be a model benchmark.
+The `evals/` suite checks implicit triggering, scope discipline, redaction, `N_A != PASS`, runtime-proof limits, claim verification and preventing generic code-review drift. It is a behavioral contract, not a model benchmark.
 
 ---
 
 ## Why RepoReel is not a README generator
 
-A README generator can make weak evidence sound polished. RepoReel does the opposite: it establishes scope, checks the Front Door, classifies claims, proves consequential workflows when safe, records limitations, computes points from explicit states, and only then helps improve presentation or launch copy.
+A README generator can make weak evidence sound polished. RepoReel does the opposite: it establishes scope, checks the Front Door, classifies claims, proves consequential workflows when safe, records limitations, computes points from explicit states, and **only then** helps improve presentation or launch copy.
 
 It must never manufacture stars, users, testimonials, benchmarks, compatibility, production readiness, security properties or feature completeness. Missing evidence becomes `UNKNOWN`, not marketing.
 
